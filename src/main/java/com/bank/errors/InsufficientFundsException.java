@@ -1,4 +1,4 @@
-package errors;
+package com.bank.errors;
 
 public class InsufficientFundsException extends Exception {
 
@@ -13,6 +13,6 @@ public class InsufficientFundsException extends Exception {
 
     @Override
     public String getMessage() {
-        return "На счете №%d недостаточно средств для списания №%d".formatted(accountNumber, value);
+        return "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ%d пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ%d".formatted(accountNumber, value);
     }
 }

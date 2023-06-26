@@ -1,4 +1,4 @@
-package errors;
+package com.bank.errors;
 
 public class NoSuchAccountException extends Exception {
     public final long accountNumber;
@@ -9,6 +9,6 @@ public class NoSuchAccountException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Не существует счета №%d".formatted(accountNumber);
+        return "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ%d".formatted(accountNumber);
     }
 }

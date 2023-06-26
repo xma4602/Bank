@@ -1,4 +1,4 @@
-package errors;
+package com.bank.errors;
 
 public class NoSuchClientException extends Exception {
 
@@ -10,6 +10,6 @@ public class NoSuchClientException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Не существует клиента №%d".formatted(clientNumber);
+        return "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ%d".formatted(clientNumber);
     }
 }

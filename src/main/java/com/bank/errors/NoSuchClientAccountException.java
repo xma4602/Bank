@@ -1,4 +1,4 @@
-package errors;
+package com.bank.errors;
 
 public class NoSuchClientAccountException extends Exception{
 
@@ -13,6 +13,6 @@ public class NoSuchClientAccountException extends Exception{
 
     @Override
     public String getMessage() {
-        return "У клиента №%d отсутствует счет №%d".formatted(clientNumber, accountNumber);
+        return "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ%d пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ%d".formatted(clientNumber, accountNumber);
     }
 }
