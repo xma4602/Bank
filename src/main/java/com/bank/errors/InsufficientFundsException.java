@@ -3,16 +3,16 @@ package com.bank.errors;
 public class InsufficientFundsException extends Exception {
 
     public final long accountNumber;
-    public final int value;
+    public final long sum;
 
-    public InsufficientFundsException(long accountNumber, int value) {
+    public InsufficientFundsException(long accountNumber, long sum) {
         this.accountNumber = accountNumber;
 
-        this.value = value;
+        this.sum = sum;
     }
 
     @Override
     public String getMessage() {
-        return "�� ����� �%d ������������ ������� ��� �������� �%d".formatted(accountNumber, value);
+        return "На счете №%d недостаточно средств, чтобы снять сумму %d".formatted(accountNumber, sum);
     }
 }

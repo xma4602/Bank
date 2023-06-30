@@ -1,10 +1,11 @@
 package com.bank.errors;
 
-public class TransferException extends Throwable {
+public class TransferException extends Exception {
 
     private final String message;
+
     public TransferException(Exception e) {
-        message = "������ �������� �������: " + getMessage();
+        message = "Ошибка перевода средств: " + getMessage();
     }
 
     @Override
