@@ -1,11 +1,11 @@
 package com.bank.entities;
 
-
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,12 +19,9 @@ public class Client {
     protected UUID id;
     @Column(name = "name")
     String name;
-
     @Column(name = "number")
-    @GeneratedValue
     long number;
-
-
+    @OneToMany(mappedBy = "client_id")
     List<Account> accounts;
 
     public Client() {
@@ -36,6 +33,7 @@ public class Client {
         this.name = name;
         this.accounts = accounts;
     }
+
     //геттеры
     public UUID getId() {
         return id;
@@ -54,6 +52,9 @@ public class Client {
     }
 
     //сеттеры
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;

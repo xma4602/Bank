@@ -1,10 +1,11 @@
 package com.bank.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 
 import java.util.UUID;
 
@@ -15,26 +16,24 @@ public class Account {
     @Id
     @GeneratedValue
     protected UUID id;
-
-    @Column(name = "client_id")
-    protected UUID clientID;
     @Column(name = "amount")
-    protected int amount;
+    protected long amount;
     @Column(name = "number")
     protected long number;
+    @ManyToOne
+    protected Client client;
 
     public Account() {
 
     }
 
-    public Account(UUID clientID, long number, int amount) {
-        this.clientID = clientID;
+    public Account(long number, int amount, Client client) {
         this.number = number;
         this.amount = amount;
+        this.client = client;
     }
 
     //геттеры
-
     public UUID getId() {
         return id;
     }
@@ -43,24 +42,28 @@ public class Account {
         return number;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public UUID getClientID() {
-        return clientID;
+    public Client getClient() {
+        return client;
     }
+
     //сеттеры
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public void setNumber(long number) {
         this.number = number;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 
-    public void setClientID(UUID clientID) {
-        this.clientID = clientID;
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
