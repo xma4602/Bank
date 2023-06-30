@@ -3,21 +3,39 @@ package com.bank.servises;
 import com.bank.NumberGenerator;
 import com.bank.entities.Account;
 import com.bank.entities.Client;
+import com.bank.errors.InsufficientFundsException;
+import com.bank.errors.NoSuchAccountException;
+import com.bank.errors.NoSuchClientAccountException;
 import com.bank.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    public List<Account> getClientAccounts(UUID id) {
-        return accountRepository.findAccountsByClientID(id);
+    @Autowired
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    public Account getAccount(long accountNumber) throws NoSuchAccountException {
+        var result = accountRepository.findAccountByNumber(accountNumber);
+        if (result.isEmpty()) throw new NoSuchAccountException(accountNumber);
+        return result.get();
+    }
+
+    public Account getAccount(long clientNumber, long accountNumber) throws NoSuchClientAccountException {
+        var result = accountRepository.findAccountByNumberAndClientNumber(clientNumber, accountNumber);
+        if (result.isEmpty()) throw new NoSuchClientAccountException(accountNumber, clientNumber);
+        return result.get();
+    }
+
+    public List<Account> getClientAccounts(long clientNumber) {
+        return accountRepository.findAccountsByClientNumber(clientNumber);
     }
 
     public Account addAccount(Client client) {
@@ -25,13 +43,17 @@ public class AccountService {
         accountRepository.save(account);
         return account;
     }
-
-    public boolean removeAccount(long accountNumber) {
-        var result = accountRepository.findAccountByNumber(accountNumber);
-        if (result.isEmpty()) return false;
-
-        accountRepository.delete(result.get());
-        return true;
+    public void addAccount(Account account) {
+        accountRepository.save(account);
     }
+
+    public void removeAccount(long accountNumber) throws NoSuchAccountException {
+        var account = getAccount(accountNumber);
+        accountRepository.delete(account);
+    }
+    public void removeAccount(Account account) {
+        accountRepository.delete(account);
+    }
+
 
 }
