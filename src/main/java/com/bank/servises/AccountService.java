@@ -2,6 +2,7 @@ package com.bank.servises;
 
 import com.bank.NumberGenerator;
 import com.bank.entities.Account;
+import com.bank.entities.Client;
 import com.bank.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class AccountService {
         return accountRepository.findAccountsByClientID(id);
     }
 
-    public Account addAccount(UUID client_id) {
-        Account account = new Account(client_id, NumberGenerator.get(), 0);
+    public Account addAccount(Client client) {
+        Account account = new Account(NumberGenerator.get(), 0, client);
         accountRepository.save(account);
         return account;
     }

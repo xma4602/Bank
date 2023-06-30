@@ -12,7 +12,6 @@ public interface AccountRepository extends CrudRepository<Account, UUID> {
 
     Optional<Account> findAccountByNumber(long number);
 
-
     List<Account> findAccountsByClientID(UUID clientID);
 
 }
