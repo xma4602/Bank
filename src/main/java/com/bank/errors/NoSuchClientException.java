@@ -1,15 +1,17 @@
 package com.bank.errors;
 
+import java.util.UUID;
+
 public class NoSuchClientException extends Exception {
 
-    public final long clientNumber;
+    public final UUID clientId;
 
-    public NoSuchClientException(long clientNumber) {
-        this.clientNumber = clientNumber;
+    public NoSuchClientException(UUID clientId) {
+        this.clientId = clientId;
     }
 
     @Override
     public String getMessage() {
-        return "There is no client with a number №%d".formatted(clientNumber);
+        return "There is no client with a id \"%s\"".formatted(clientId);
     }
 }

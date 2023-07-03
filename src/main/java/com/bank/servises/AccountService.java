@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -22,24 +23,24 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public Account getAccount(long accountNumber) throws NoSuchAccountException {
-        Optional<Account> result = accountRepository.findAccountByNumber(accountNumber);
+    public Account getAccount(UUID accountId) throws NoSuchAccountException {
+        Optional<Account> result = accountRepository.findAccountById(accountId);
         if (result.isEmpty()) {
-            throw new NoSuchAccountException(accountNumber);
+            throw new NoSuchAccountException(accountId);
         }
         return result.get();
     }
 
-    public Account getAccount(long clientNumber, long accountNumber) throws NoSuchClientAccountException {
-        Optional<Account> result = accountRepository.findAccountByNumberAndClientNumber(clientNumber, accountNumber);
+    public Account getAccount(UUID clientId, UUID accountId) throws NoSuchClientAccountException {
+        Optional<Account> result = accountRepository.findAccountByIdAndClientId(clientId, accountId);
         if (result.isEmpty()) {
-            throw new NoSuchClientAccountException(accountNumber, clientNumber);
+            throw new NoSuchClientAccountException(accountId, clientId);
         }
         return result.get();
     }
 
-    public List<Account> getClientAccounts(long clientNumber) {
-        return accountRepository.findAccountsByClientNumber(clientNumber);
+    public List<Account> getClientAccounts(UUID clientId) {
+        return accountRepository.findAccountsByClientId(clientId);
     }
 
     public Account addAccountToClient(Client client) {
@@ -51,8 +52,8 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public void removeAccount(long accountNumber) throws NoSuchAccountException {
-        Account account = getAccount(accountNumber);
+    public void removeAccount(UUID accountId) throws NoSuchAccountException {
+        Account account = getAccount(accountId);
         accountRepository.delete(account);
     }
     public void removeAccount(Account account) {

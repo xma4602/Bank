@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class FinanceService {
     private final AccountService accountService;
@@ -17,39 +19,39 @@ public class FinanceService {
         this.accountService = accountService;
     }
 
-    public long getAccountBalance(long clientNumber, long accountNumber) throws NoSuchClientAccountException {
-        return accountService.getAccount(clientNumber, accountNumber).getAmount();
+    public long getAccountBalance(UUID clientId, UUID accountId) throws NoSuchClientAccountException {
+        return accountService.getAccount(clientId, accountId).getAmount();
     }
 
-    public long getAccountBalance(long clientNumber) throws NoSuchClientAccountException {
-        var accounts = accountService.getClientAccounts(clientNumber);
-        if (accounts.isEmpty()) throw new NoSuchClientAccountException(clientNumber);
+    public long getAccountBalance(UUID clientId) throws NoSuchClientAccountException {
+        var accounts = accountService.getClientAccounts(clientId);
+        if (accounts.isEmpty()) throw new NoSuchClientAccountException(clientId);
         return accounts.stream().mapToLong(Account::getAmount).sum();
     }
 
     @Transactional
-    public void putOn(long accountNumber, long sum) throws NoSuchAccountException {
-        var account = accountService.getAccount(accountNumber);
-        accountService.removeAccount(accountNumber);
+    public void putOn(UUID accountId, long sum) throws NoSuchAccountException {
+        var account = accountService.getAccount(accountId);
+        accountService.removeAccount(accountId);
         account.setAmount(account.getAmount() + sum);
         accountService.createAccount(account);
     }
 
     @Transactional
-    public void takeFrom(long accountNumber, long sum) throws NoSuchAccountException, InsufficientFundsException {
-        var account = accountService.getAccount(accountNumber);
-        if (account.getAmount() < sum) throw new InsufficientFundsException(accountNumber, sum);
+    public void takeFrom(UUID accountId, long sum) throws NoSuchAccountException, InsufficientFundsException {
+        var account = accountService.getAccount(accountId);
+        if (account.getAmount() < sum) throw new InsufficientFundsException(accountId, sum);
 
-        accountService.removeAccount(accountNumber);
+        accountService.removeAccount(accountId);
         account.setAmount(account.getAmount() -sum);
         accountService.createAccount(account);
     }
 
     @Transactional
-    public void transfer(long senderAccountNumber, long recipientAccountNumber, long sum) throws NoSuchAccountException, InsufficientFundsException {
-        var sender = accountService.getAccount(senderAccountNumber);
-        var recipient = accountService.getAccount(recipientAccountNumber);
-        if (sender.getAmount() < sum) throw new InsufficientFundsException(senderAccountNumber, sum);
+    public void transfer(UUID senderAccountId, UUID recipientAccountId, long sum) throws NoSuchAccountException, InsufficientFundsException {
+        var sender = accountService.getAccount(senderAccountId);
+        var recipient = accountService.getAccount(recipientAccountId);
+        if (sender.getAmount() < sum) throw new InsufficientFundsException(senderAccountId, sum);
 
         accountService.removeAccount(sender);
         sender.setAmount(sender.getAmount() - sum);

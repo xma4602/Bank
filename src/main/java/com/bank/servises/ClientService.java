@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -23,19 +24,19 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public Client getClientByNumber(long clientNumber) throws NoSuchClientException {
-        Optional<Client> result = clientRepository.findClientByNumber(clientNumber);
+    public Client getClientById(UUID clientId) throws NoSuchClientException {
+        Optional<Client> result = clientRepository.findClientById(clientId);
         if (result.isEmpty()) {
-            throw new NoSuchClientException(clientNumber);
+            throw new NoSuchClientException(clientId);
         }
 
         return result.get();
     }
 
-    public List<Account> getClientAccounts(long clientNumber) throws NoSuchClientException {
-        Optional<Client> result = clientRepository.findClientByNumber(clientNumber);
+    public List<Account> getClientAccounts(UUID clientId) throws NoSuchClientException {
+        Optional<Client> result = clientRepository.findClientById(clientId);
         if (result.isEmpty()) {
-            throw new NoSuchClientException(clientNumber);
+            throw new NoSuchClientException(clientId);
         }
 
         return result.get().getAccounts();
@@ -47,8 +48,8 @@ public class ClientService {
         return client;
     }
 
-    public void removeClient(long clientNumber) throws NoSuchClientException {
-        Client client = getClientByNumber(clientNumber);
+    public void removeClient(UUID clientId) throws NoSuchClientException {
+        Client client = getClientById(clientId);
         clientRepository.delete(client);
     }
 }

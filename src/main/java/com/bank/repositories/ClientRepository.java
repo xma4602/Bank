@@ -8,9 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ClientRepository extends CrudRepository<Client, UUID> {
-
-
-    Optional<Client> findClientByNumber(long number);
+    Optional<Client> findClientById(UUID id);
 
     List<Client> findClientsByName(String name);
 }

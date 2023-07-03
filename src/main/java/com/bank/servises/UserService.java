@@ -8,6 +8,8 @@ import com.bank.errors.NoSuchClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService extends FinanceService {
     private final AccountService accountService;
@@ -20,14 +22,14 @@ public class UserService extends FinanceService {
         this.clientService = clientService;
     }
 
-    public Account openAccount(long clientNumber) throws NoSuchClientException {
-        Client client = clientService.getClientByNumber(clientNumber);
+    public Account openAccount(UUID clientId) throws NoSuchClientException {
+        Client client = clientService.getClientById(clientId);
         return accountService.addAccountToClient(client);
     }
 
-    public void closeAccount(long clientNumber, long accountNumber) throws NoSuchClientAccountException, NoSuchAccountException {
-        Account account = accountService.getAccount(clientNumber, accountNumber);
-        accountService.removeAccount(accountNumber);
+    public void closeAccount(UUID clientId, UUID accountId) throws NoSuchClientAccountException, NoSuchAccountException {
+        Account account = accountService.getAccount(clientId, accountId);
+        accountService.removeAccount(accountId);
     }
 
 

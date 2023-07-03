@@ -1,18 +1,19 @@
 package com.bank.errors;
 
+import java.util.UUID;
+
 public class InsufficientFundsException extends Exception {
 
-    public final long accountNumber;
+    public final UUID accountId;
     public final long sum;
 
-    public InsufficientFundsException(long accountNumber, long sum) {
-        this.accountNumber = accountNumber;
-
+    public InsufficientFundsException(UUID accountId, long sum) {
+        this.accountId = accountId;
         this.sum = sum;
     }
 
     @Override
     public String getMessage() {
-        return "There are not enough funds on account %d to take the amount %d".formatted(accountNumber, sum);
+        return "There are not enough funds on account \"%s\" to take the amount %d".formatted(accountId, sum);
     }
 }

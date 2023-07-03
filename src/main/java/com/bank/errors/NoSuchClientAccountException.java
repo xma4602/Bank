@@ -1,22 +1,28 @@
 package com.bank.errors;
 
+import java.util.UUID;
+
 public class NoSuchClientAccountException extends Exception{
 
-    public final long accountNumber;
-    public final long clientNumber;
+    public final UUID accountId;
+    public final UUID clientId;
 
-    public NoSuchClientAccountException(long accountNumber, long clientNumber) {
-        this.accountNumber = accountNumber;
-        this.clientNumber = clientNumber;
+    public NoSuchClientAccountException(UUID accountId, UUID clientId) {
+        this.accountId = accountId;
+        this.clientId = clientId;
     }
 
-    public NoSuchClientAccountException(long clientNumber) {
-        this.accountNumber = 0;
-        this.clientNumber = clientNumber;
+    public NoSuchClientAccountException(UUID clientId) {
+        this(null, clientId);
     }
 
     @Override
     public String getMessage() {
-        return "Client №%d has no account №%d".formatted(clientNumber, accountNumber);
+        if (accountId != null){
+            return "Client \"%s\" has no account \"%s\"".formatted(clientId, accountId);
+        }
+        else {
+            return "Client \"%s\" has no accounts".formatted(clientId);
+        }
     }
 }

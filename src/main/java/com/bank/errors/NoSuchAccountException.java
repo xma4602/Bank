@@ -1,14 +1,16 @@
 package com.bank.errors;
 
-public class NoSuchAccountException extends Exception {
-    public final long accountNumber;
+import java.util.UUID;
 
-    public NoSuchAccountException(long accountNumber) {
-        this.accountNumber = accountNumber;
+public class NoSuchAccountException extends Exception {
+    public final UUID accountId;
+
+    public NoSuchAccountException(UUID accountId) {
+        this.accountId = accountId;
     }
 
     @Override
     public String getMessage() {
-        return "There is no account with a number №%d".formatted(accountNumber);
+        return "There is no account with a id \"%s\"".formatted(accountId);
     }
 }
