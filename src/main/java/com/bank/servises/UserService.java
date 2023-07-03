@@ -22,7 +22,7 @@ public class UserService extends FinanceService {
 
     public Account openAccount(long clientNumber) throws NoSuchClientException {
         Client client = clientService.getClientByNumber(clientNumber);
-        return accountService.addAccount(client);
+        return accountService.addAccountToClient(client);
     }
 
     public void closeAccount(long clientNumber, long accountNumber) throws NoSuchClientAccountException, NoSuchAccountException {

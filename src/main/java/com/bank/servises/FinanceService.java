@@ -6,6 +6,7 @@ import com.bank.errors.NoSuchAccountException;
 import com.bank.errors.NoSuchClientAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FinanceService {
@@ -26,22 +27,25 @@ public class FinanceService {
         return accounts.stream().mapToLong(Account::getAmount).sum();
     }
 
+    @Transactional
     public void putOn(long accountNumber, long sum) throws NoSuchAccountException {
         var account = accountService.getAccount(accountNumber);
         accountService.removeAccount(accountNumber);
         account.setAmount(account.getAmount() + sum);
-        accountService.addAccount(account);
+        accountService.createAccount(account);
     }
 
+    @Transactional
     public void takeFrom(long accountNumber, long sum) throws NoSuchAccountException, InsufficientFundsException {
         var account = accountService.getAccount(accountNumber);
         if (account.getAmount() < sum) throw new InsufficientFundsException(accountNumber, sum);
 
         accountService.removeAccount(accountNumber);
         account.setAmount(account.getAmount() -sum);
-        accountService.addAccount(account);
+        accountService.createAccount(account);
     }
 
+    @Transactional
     public void transfer(long senderAccountNumber, long recipientAccountNumber, long sum) throws NoSuchAccountException, InsufficientFundsException {
         var sender = accountService.getAccount(senderAccountNumber);
         var recipient = accountService.getAccount(recipientAccountNumber);
@@ -49,10 +53,10 @@ public class FinanceService {
 
         accountService.removeAccount(sender);
         sender.setAmount(sender.getAmount() - sum);
-        accountService.addAccount(sender);
+        accountService.createAccount(sender);
 
         accountService.removeAccount(recipient);
         sender.setAmount(sender.getAmount() + sum);
-        accountService.addAccount(recipient);
+        accountService.createAccount(recipient);
     }
 }
