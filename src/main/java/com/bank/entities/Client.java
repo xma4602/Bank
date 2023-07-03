@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -16,13 +18,13 @@ public class Client {
 
     @Id
     @GeneratedValue
-    protected UUID id;
+    private UUID id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "number")
-    long number;
-    @OneToMany(mappedBy = "client_id")
-    List<Account> accounts;
+    private long number;
+    @OneToMany(mappedBy = "client_id", fetch = FetchType.LAZY)
+    private List<Account> accounts;
 
     public Client() {
 

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 
 import java.util.UUID;
 
@@ -15,13 +16,13 @@ public class Account {
 
     @Id
     @GeneratedValue
-    protected UUID id;
+    private UUID id;
     @Column(name = "amount")
-    protected long amount;
+    private long amount;
     @Column(name = "number")
-    protected long number;
-    @ManyToOne
-    protected Client client;
+    private long number;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Client client;
 
     public Account() {
 
