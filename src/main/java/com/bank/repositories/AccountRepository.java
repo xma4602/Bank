@@ -16,7 +16,7 @@ public interface AccountRepository extends CrudRepository<Account, UUID> {
 
     void deleteAccountById(UUID id);
 
-    long updateById(UUID id, long amount);
+    void updateById(UUID id, long amount);
 
     long updateById(UUID id, String name);
 }

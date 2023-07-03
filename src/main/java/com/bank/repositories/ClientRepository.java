@@ -11,4 +11,8 @@ public interface ClientRepository extends CrudRepository<Client, UUID> {
     Optional<Client> findClientById(UUID id);
 
     List<Client> findClientsByName(String name);
+
+    void deleteBy(UUID id);
+
+    long updateById(UUID id, String name);
 }
