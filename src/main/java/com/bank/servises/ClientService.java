@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -23,15 +24,19 @@ public class ClientService {
     }
 
     public Client getClientByNumber(long clientNumber) throws NoSuchClientException {
-        var result = clientRepository.findClientByNumber(clientNumber);
-        if (result.isEmpty()) throw new NoSuchClientException(clientNumber);
+        Optional<Client> result = clientRepository.findClientByNumber(clientNumber);
+        if (result.isEmpty()) {
+            throw new NoSuchClientException(clientNumber);
+        }
 
         return result.get();
     }
 
     public List<Account> getClientAccounts(long clientNumber) throws NoSuchClientException {
-        var result = clientRepository.findClientByNumber(clientNumber);
-        if (result.isEmpty()) throw new NoSuchClientException(clientNumber);
+        Optional<Client> result = clientRepository.findClientByNumber(clientNumber);
+        if (result.isEmpty()) {
+            throw new NoSuchClientException(clientNumber);
+        }
 
         return result.get().getAccounts();
     }
@@ -42,13 +47,8 @@ public class ClientService {
         return client;
     }
 
-    public boolean removeClient(long clientNumber) {
-        try {
-            var client = getClientByNumber(clientNumber);
-            clientRepository.delete(client);
-            return true;
-        } catch (NoSuchClientException e) {
-            return false;
-        }
+    public void removeClient(long clientNumber) throws NoSuchClientException {
+        Client client = getClientByNumber(clientNumber);
+        clientRepository.delete(client);
     }
 }
