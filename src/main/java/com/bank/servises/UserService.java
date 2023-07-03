@@ -1,8 +1,8 @@
 package com.bank.servises;
 
+import com.bank.NumberGenerator;
 import com.bank.entities.Account;
 import com.bank.entities.Client;
-import com.bank.errors.NoSuchAccountException;
 import com.bank.errors.NoSuchClientAccountException;
 import com.bank.errors.NoSuchClientException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,12 @@ public class UserService extends FinanceService {
 
     public Account openAccount(UUID clientId) throws NoSuchClientException {
         Client client = clientService.getClientById(clientId);
-        return accountService.addAccountToClient(client);
+        Account account = new Account(NumberGenerator.get(), 0, client);
+        accountService.saveAccount(account);
+        return account;
     }
 
-    public void closeAccount(UUID clientId, UUID accountId) throws NoSuchClientAccountException, NoSuchAccountException {
+    public void closeAccount(UUID clientId, UUID accountId) throws NoSuchClientAccountException {
         Account account = accountService.getAccount(clientId, accountId);
         accountService.removeAccount(accountId);
     }

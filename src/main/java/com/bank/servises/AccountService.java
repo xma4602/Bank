@@ -1,8 +1,6 @@
 package com.bank.servises;
 
-import com.bank.NumberGenerator;
 import com.bank.entities.Account;
-import com.bank.entities.Client;
 import com.bank.errors.NoSuchAccountException;
 import com.bank.errors.NoSuchClientAccountException;
 import com.bank.repositories.AccountRepository;
@@ -43,22 +41,15 @@ public class AccountService {
         return accountRepository.findAccountsByClientId(clientId);
     }
 
-    public Account addAccountToClient(Client client) {
-        Account account = new Account(NumberGenerator.get(), 0, client);
-        accountRepository.save(account);
-        return account;
-    }
-    public void createAccount(Account account) {
+    public void saveAccount(Account account) {
         accountRepository.save(account);
     }
 
-    public void removeAccount(UUID accountId) throws NoSuchAccountException {
-        Account account = getAccount(accountId);
-        accountRepository.delete(account);
-    }
-    public void removeAccount(Account account) {
-        accountRepository.delete(account);
+    public void removeAccount(UUID accountId) {
+        accountRepository.deleteAccountById(accountId);
     }
 
-
+    public void updateAccountAmount(UUID accountId, long value){
+        accountRepository.updateById(accountId, value);
+    }
 }
