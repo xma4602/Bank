@@ -10,6 +10,6 @@ public class NoSuchClientException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Не сущестует клиента №%d".formatted(clientNumber);
+        return "There is no client with a number №%d".formatted(clientNumber);
     }
 }

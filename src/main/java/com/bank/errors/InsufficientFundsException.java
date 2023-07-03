@@ -13,6 +13,6 @@ public class InsufficientFundsException extends Exception {
 
     @Override
     public String getMessage() {
-        return "На счете №%d недостаточно средств, чтобы снять сумму %d".formatted(accountNumber, sum);
+        return "There are not enough funds on account %d to take the amount %d".formatted(accountNumber, sum);
     }
 }

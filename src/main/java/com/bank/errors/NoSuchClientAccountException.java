@@ -17,6 +17,6 @@ public class NoSuchClientAccountException extends Exception{
 
     @Override
     public String getMessage() {
-        return "У клиента №%d отсутствует счет №%d".formatted(clientNumber, accountNumber);
+        return "Client №%d has no account №%d".formatted(clientNumber, accountNumber);
     }
 }

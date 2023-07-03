@@ -5,7 +5,7 @@ public class TransferException extends Exception {
     private final String message;
 
     public TransferException(Exception e) {
-        message = "Ошибка перевода средств: " + getMessage();
+        message = "Transfer error: " + e.getMessage();
     }
 
     @Override

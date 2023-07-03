@@ -9,6 +9,6 @@ public class NoSuchAccountException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Не существует счета с номером №%d".formatted(accountNumber);
+        return "There is no account with a number №%d".formatted(accountNumber);
     }
 }
